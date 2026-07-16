@@ -6,8 +6,8 @@ const postPopulates = [
     { path: "author", select: "email username avatar role bio followers followings" },
     { path: "categories", select: "title" }
 ]
-export const createPost = async (title: string, coverImage: string, content: string, author: string, categories: string[]): Promise<IPost> => {
-    return (await Post.create({ title, content, coverImage, author, categories })).populate(postPopulates)
+export const createPost = async (title: string, coverImage: string, content: string, author: string, categories: string[], status?: PostStatus): Promise<IPost> => {
+    return (await Post.create({ title, content, coverImage, author, categories, status })).populate(postPopulates)
 }
 
 export const findPostById = async (id: string): Promise<IPost | null> => {

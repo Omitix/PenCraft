@@ -6,6 +6,7 @@ import { findAllPosts } from "../services/post.service";
 import { UserRole } from "../types/user.types";
 
 import { SortOption } from "../types/sort.types";
+import { PostStatus } from "../types/post.types";
 
 const posts = [
     {
@@ -73,7 +74,7 @@ export const seedPosts = async () => {
                 postData.coverImage,
                 postData.content,
                 adminUser._id.toString(),
-                categoryIds
+                categoryIds,PostStatus.PUBLISHED
             );
 
             console.log(`✅ ${i + 1}/${posts.length} — "${postData.title}"`);
