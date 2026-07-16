@@ -1,43 +1,21 @@
-
-import { createTransport } from "nodemailer";
-
-const EMAIL = process.env.APP_USER;
-const ADMIN_EMAIL = process.env.APP_USER;
-const PASSWORD = process.env.APP_PASS;
+import { Resend } from "resend";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 const FRONTEND_URL = process.env.FRONTEND_URL;
-if (!EMAIL) {
-    throw new Error(`Cannot load APP_USER from .env file`);
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
 
-}
-if (!PASSWORD) {
-    throw new Error(`Cannot load APP_PASS from .env file`);
-}
+
 if (!FRONTEND_URL) {
     throw new Error(`Cannot load FRONTEND_URL from .env file`);
 }
 if (!ADMIN_EMAIL) {
     throw new Error(`Cannot load FRONTEND_URL from .env file`);
 }
-
-
-const transporter = createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    auth: {
-        user: EMAIL,
-        pass: PASSWORD,
-    }
-
-})
-
-export const testMail = async () => {
-    try {
-        await transporter.verify()
-        console.log(`✅✅Nodemailer successfully runned✅✅`);
-    } catch (error) {
-        throw new Error(`❌❌Nodemailer service filed with error❌❌ \n ${error}`);
-    }
+if (!RESEND_API_KEY) {
+    throw new Error(`Cannot load RESEND_API_KEY from .env file`);
 }
+
+const resend = new Resend(RESEND_API_KEY);
+
 
 export const sendResetPasswordEmail = async (email: string, token: string) => {
 
@@ -175,11 +153,13 @@ export const sendResetPasswordEmail = async (email: string, token: string) => {
 
 </body>
 </html>`
-    await transporter.sendMail({
-        from: "PenCraft",
+
+    await resend.emails.send({
+        from: "PenCraft <onboarding@resend.dev>",
+        to: email,
         subject: "Reset password",
-        to: email, html
-    })
+        html,
+    });
 }
 export const sendContactEmail = async (name: string, email: string, subject: string, message: string) => {
     const template = `
@@ -243,11 +223,11 @@ export const sendContactEmail = async (name: string, email: string, subject: str
         .replace("{{message}}", message)
         .replace("{{date}}", new Date().toLocaleDateString());
 
-    await transporter.sendMail({
-
-        from: `${name} '${email}'`,
-        subject,
+    await resend.emails.send({
+        from: "PenCraft <onboarding@resend.dev>",
+        to: ADMIN_EMAIL,
         replyTo: email,
-        to: ADMIN_EMAIL, html
-    })
+        subject,
+        html,
+    });
 }

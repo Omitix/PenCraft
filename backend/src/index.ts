@@ -4,7 +4,6 @@ dotenv.config()
 import dns from 'dns';
 dns.setDefaultResultOrder('ipv4first');
 
-import { testMail } from "./utils/email.utils";
 import { connectToDatabase } from './config/db';
 import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/user.routes';
@@ -31,7 +30,6 @@ if (!FRONTEND_URL) {
 
 const app = express();
 const start = async () => {
-    await testMail()
     await connectToDatabase()
     app.use(cors({ origin: FRONTEND_URL, credentials: true }))
     app.use(express.json())
