@@ -1,6 +1,9 @@
 import path from 'path';
 import dotenv from 'dotenv';
 dotenv.config()
+import dns from 'dns';
+dns.setDefaultResultOrder('ipv4first');
+
 import { testMail } from "./utils/email.utils";
 import { connectToDatabase } from './config/db';
 import authRoutes from './routes/auth.routes';

@@ -7,7 +7,7 @@
     "dev": "nodemon --exec ts-node src/index.ts",
     "seed": "nodemon --exec ts-node src/seeds/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node --dns-result-order=ipv4first dist/index.js"
   },
   "keywords": [],
   "author": "",
