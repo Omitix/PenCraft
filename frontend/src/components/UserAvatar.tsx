@@ -41,6 +41,17 @@ const nameSizeClasses = {
     xl: "font-bold text-xl",
 };
 
+
+export const getImageUrl = (path: string): string => {
+    if (!path) return '';
+
+    if (path.startsWith('http://') || path.startsWith('https://')) {
+        return path;
+    }
+    return `${import.meta.env.VITE_BACKEND_URL}${path}`;
+};
+
+
 export const UserAvatar = ({
     username,
     id,
@@ -54,7 +65,6 @@ export const UserAvatar = ({
     className = "",
 }: UserAvatarProps) => {
     const [imgError, setImgError] = useState(false);
-
     const avatarContent = (
         <div className={`avatar placeholder shrink-0 ${className}`}>
             <div
@@ -63,7 +73,7 @@ export const UserAvatar = ({
             >
                 {avatar && !imgError ? (
                     <img
-                        src={avatar}
+                        src={getImageUrl(avatar)}
                         alt={username}
                         className="w-full h-full object-cover"
                         onError={() => setImgError(true)}

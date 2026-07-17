@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getNavigate } from "../utils/navigate.utils";
 
-export const api = axios.create({ baseURL: "/api", timeout: 6000 })
+export const api = axios.create({ baseURL: import.meta.env.VITE_BACKEND_URL + "/api", timeout: 6000 })
 api.interceptors.request.use(config => {
     const token = localStorage.getItem("token")
     if (token) {
